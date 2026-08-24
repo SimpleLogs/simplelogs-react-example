@@ -14,8 +14,8 @@ createRoot(document.getElementById("root")).render(
       config={{
         clientKey: import.meta.env.VITE_SIMPLELOGS_CLIENT_KEY,
         environment: import.meta.env.MODE,
-        // Session replay is opt-in. Turning it on dynamically imports rrweb,
-        // so a build that leaves it off never pays for the bytes.
+        // Session replay is opt-in. rrweb is imported dynamically, so leaving
+        // this off means the chunk is built but never downloaded.
         sessionReplay: { enabled: false },
       }}
     >

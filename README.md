@@ -77,9 +77,10 @@ prefix the server key with `VITE_`.
 
 ## Session replay
 
-Off in this example. Turning it on dynamically imports rrweb, so a build that
-leaves it off never pays for the bytes — in a production build rrweb lands in a
-separate lazy chunk that is never fetched.
+Off in this example. `enabled` is read at runtime, so no bundler can eliminate
+rrweb on it — the SDK imports it dynamically, and in a production build it
+lands in its own lazy chunk that is simply never fetched. What the flag saves
+is the download, not the build output.
 
 ```jsx
 config={{ clientKey: "...", sessionReplay: { enabled: true } }}
