@@ -1,12 +1,16 @@
 # SimpleLogs + React
 
 A plain React app (Vite) instrumented with
-[`@simplelogs/react`](https://www.npmjs.com/package/@simplelogs/react). No
-Next.js — the same setup works in Create React App, Remix, React Router or any
-other React root.
+[`@simplelogs/react`](https://www.npmjs.com/package/@simplelogs/react). The
+same setup works in Create React App, Remix, React Router or any other React
+root.
 
 The whole integration is one provider. Everything else in this repo is the demo
 around it.
+
+**If you use Next.js, use
+[`@simplelogs/next`](https://github.com/SimpleLogs/simplelogs-next-example)
+instead** — it covers the browser and the server in one install.
 
 ## Setup
 
@@ -35,9 +39,8 @@ import { SimpleLogsProvider } from "@simplelogs/react";
 </SimpleLogsProvider>
 ```
 
-That is it. This is the same provider a Next.js app puts in its root layout —
-there is no React-only variant. In a plain React app there is no server render,
-so it configures the SDK on mount.
+That is it. A plain React app has no server render, so the provider configures
+the SDK on mount.
 
 ## What you get without writing any logging code
 
