@@ -93,9 +93,38 @@ config={{ clientKey: "...", sessionReplay: { enabled: true } }}
 
 Frontend and backend packages are complementary, not alternatives. If this app
 talks to an Express or Node API, instrument that too: the SDK's patched `fetch`
-forwards page, session and trace headers on same-origin requests, so a slow API
-call shows up **inside** the page's trace rather than as an unattached server
-span. Neither side has to pass an id explicitly.
+puts the page and session ids on same-origin requests, so a log written in a
+route handler is attributed to the browser session that caused it. Neither side
+has to pass an id explicitly, and nothing has to be turned on.
+
+Putting the API's work **inside** the page's trace, rather than beside it as an
+unattached server span, is a further opt-in on each side. The trace travels as
+a W3C `traceparent`, which the browser sends only once it has a span to
+propagate:
+
+```jsx
+// Before you render, and only when you want tracing — the web tracer is a
+// separate entry point precisely so a page that only logs never downloads it.
+import { initBrowserOtel } from "@simplelogs/browser/otel";
+
+initBrowserOtel();
+```
+
+`@simplelogs/react` has no `./otel` entry of its own, so that import needs
+`@simplelogs/browser` added to your dependencies. It is already in the tree as
+a transitive one, but a non-hoisted `node_modules` layout will not resolve a
+package you have not declared.
+
+The server continues the trace only once it has called `initOtel()`. This
+example does neither, because it has no backend to correlate with; the
+[Express](https://github.com/SimpleLogs/simplelogs-express-example) and
+[Node](https://github.com/SimpleLogs/simplelogs-node-example) examples show the
+server half.
+
+Skip either and both sides still log, still time and still share a page and a
+session — only the trace splits in two, with nothing logged to say so. A page
+that never opted into tracing is not misconfigured, so the fallback is silent
+by design.
 
 ## Other examples
 
