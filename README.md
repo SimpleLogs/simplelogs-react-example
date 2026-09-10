@@ -25,7 +25,7 @@ npm run dev              # http://localhost:5174
 Add `http://localhost:5174` to the key's allowed origins in Settings → API
 Keys. Client keys are origin-locked, so nothing is recorded until you do.
 
-Requires Node 20 or newer.
+Requires Node 24 or newer.
 
 ## The integration
 
